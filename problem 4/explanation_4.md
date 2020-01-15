@@ -1,9 +1,8 @@
 
-Using recursion to iterate through the ad tree. First checking to see if the user we're' looking for is the name of the
-group if so break out. Then checking to see if user  is in the users of the group if so breakout and return true.
-Then loop over the group structure passing in the next group. Was initially using a BFS with a queue to loop through the
-tree structure queing and dequeing however the additional code needed for this seemed like it would be better handled as
-a recursive function.
+Using recursion to iterate through the ad tree. First checking to see if the user we're looking for is the name of the
+group, then checking to see if user is in the users of the group, then loop over the group structure passing in the next
+group. I was initially using a BFS with a queue to loop through the tree structure queing and dequeing however the
+during implementation of the code seemed very repetitive which lead me to a recursive function.<br/>
 
-Time Complexity of this solution is O(depth of ad * number of users in ad ),
-Space Complexity O(depth of ad * number of users in a)
+**Time Complexity:** O(n*m) where n is the depth of the ad tree and m is the number of users in ad<br/>
+**Space Complexity:** also O(n*m) where n is the depth of the ad tree and m is the number of users in ad

@@ -14,7 +14,6 @@
 # #
 # # For the current problem, you can consider the size of cache = 5.
 
-# problem solved as a doubly linked list
 
 class DoubleNode:
     def __init__(self, key, value):
