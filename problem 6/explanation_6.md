@@ -6,4 +6,5 @@ both lists without collisions.
 **Time Complexity:** for both functions is O(n) since sets use hashtables and we're only iterating through one
                     item at any given time<br/>
 
-**Space Complexity:** O(n) since we're storing the values in a list for both union and intersection
+**Space Complexity:** O(n) since we're storing the values in a list for both union and intersection where the lists we
+create represent n

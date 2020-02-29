@@ -45,6 +45,10 @@ class LRU_Cache:
     def set(self, key, value):
         # Set the value if the key is not present in the cache.
         # If the cache is at capacity remove the oldest item.
+        if isinstance(value, str):
+            print('Cache only accepts integer values')
+        if self.capacity == 0:
+            print('Cannot add value to 0 capacity cache')
         if key in self.dict:
             self.remove(self.dict[key])
         node = DoubleNode(key, value)
@@ -72,23 +76,36 @@ class LRU_Cache:
 
 our_cache = LRU_Cache(5)
 
+print('Setting cache:')
+our_cache.set(1, 1)
+our_cache.set(2, 2)
+our_cache.set(3, 3)
+our_cache.set(4, 4)
+print("---------------------")
+print("Testing:")
+print("--------------------")
+print("1.")
+print("Test Case: Should return 1")
+print("Test return: " + str(our_cache.get(1)))
+print("--------------------")
+print("2.")
+our_cache = LRU_Cache(0)
+print("Test Case: Should return None and print 'Cannot add value to 0 capacity cache'")
+print("Test return: " + str(our_cache.set(1, 1)))
+print("--------------------")
+print("3.")
+our_cache = LRU_Cache(5)
+print("Test Case: Should return None value and print 'Cache only accepts integer values'")
+print("Test return: " + str(our_cache.set(1, 'z')))
+print("--------------------")
+print("4.")
+our_cache = LRU_Cache(5)
+(our_cache.set(5, 5))
+(our_cache.set(6, 6))
+print("Test Case: Should return -1")
+print("Test return: " + str(our_cache.get(3)))
+print("--------------------")
 
-print(our_cache.set(1, 1))
-print(our_cache.set(2, 2))
-print(our_cache.set(3, 3))
-print(our_cache.set(4, 4))
-
-
-
-print(our_cache.get(1))  # returns 1
-print(our_cache.get(2))  # returns 2
-print(our_cache.get(9))  # returns -1 because 9 is not present in the cache
-
-print(our_cache.set(5, 5))
-print(our_cache.set(6, 6))
-
-print(our_cache.get(3))  # -1 added 5, 6  3 was pushed out of the cache
-print(our_cache.dict)
 
 
 

@@ -60,9 +60,9 @@ def union(llist_1, llist_2):
 
     return union_list
 
+
 def intersection(llist_1, llist_2):
-    # Your Solution Her
-    intersection_list = []
+    intersection_list = LinkedList()
     s = set()
     current_1 = llist_1.head
     while current_1:
@@ -76,7 +76,6 @@ def intersection(llist_1, llist_2):
             s.remove(current_2.value)
 
         current_2 = current_2.next
-
     return intersection_list
 
 
@@ -93,11 +92,11 @@ for i in element_1:
 for i in element_2:
     linked_list_2.append(i)
 
-
+print("------------------------------------------------")
+print("Test 1:")
 print(union(linked_list_1, linked_list_2))  # 32 -> 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 9 -> 11 -> 21 ->
-print(intersection(linked_list_1, linked_list_2))  # [6, 4, 21]
-
-# Test case 2
+print(intersection(linked_list_1, linked_list_2))  # 6 -> 4 -> 21 ->
+print("------------------------------------------------")
 
 linked_list_3 = LinkedList()
 linked_list_4 = LinkedList()
@@ -111,9 +110,11 @@ for i in element_1:
 for i in element_2:
     linked_list_4.append(i)
 
+print("------------------------------------------------")
+print("Test 2:")
 print(union(linked_list_3, linked_list_4))  # 65 -> 2 -> 35 -> 3 -> 4 -> 6 -> 1 -> 7 -> 8 -> 9 -> 11 -> 21 -> 23 ->
-print(intersection(linked_list_3, linked_list_4))  # no shared values so output = []
-
+print(intersection(linked_list_3, linked_list_4))  # no shared values so output blank
+print("------------------------------------------------")
 
 # Test case 3
 
@@ -128,6 +129,8 @@ for i in element_1:
 
 for i in element_2:
     linked_list_6.append(i)
-
+print("------------------------------------------------")
+print("Test 3:")
 print(union(linked_list_5, linked_list_6))  # 1 -> 7 -> 8 -> 9 -> 11 -> 21 ->
-print(intersection(linked_list_5, linked_list_6))  # []
+print(intersection(linked_list_5, linked_list_6))  # no shared values so output blank
+print("------------------------------------------------")

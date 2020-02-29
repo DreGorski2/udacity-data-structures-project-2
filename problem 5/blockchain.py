@@ -1,13 +1,13 @@
 import hashlib
 import sys
-from datetime import datetime
+from pprint import pprint
+import datetime
 
 
 class Block:
 
-    def __init__(self, temp,  timestamp, data, previous_hash):
-        self.temp = temp
-        self.timestamp = timestamp
+    def __init__(self, data, previous_hash=0):
+        self.timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M:%S %m-%d-%y")
         self.data = data
         self.previous_hash = previous_hash
         self.hash = self.calc_hash(data)
@@ -18,29 +18,62 @@ class Block:
         sha.update(hash_str)
         return sha.hexdigest()
 
-
-def create_block(prev_block):
-    if prev_block is None:
-        return None
-    temp_now = prev_block.temp + 1
-    timestamp_now = datetime.now()
-    data_now = f"cat{temp_now}"
-    prev_hash_now = prev_block.hash
-    return Block(temp_now, timestamp_now, data_now, prev_hash_now)
+    def __repr__(self):
+        d = ''
+        d += "Timestamp: " + self.timestamp + "\n"
+        d += "Value: " + self.data + "\n"
+        d += "Curr_Hash: " + str(self.hash) + "\n"
+        d += "Prev_Hash: " + str(self.previous_hash) + "\n"
+        return d
 
 
-if __name__ == '__main__':
-    try:
-        block_chain = [Block(0, datetime.now, 'cat', 0)]
-    except TypeError as e:
-        sys.exit(e)
-    print("Data: " + block_chain[0].data + str(block_chain[0].temp) + "\n" + "Hash: " + block_chain[0].hash
-          + "\n" + "Prev Hash: "+ str(block_chain[0].previous_hash) + "\n")
-    for i in range(0, 5):
-        block = create_block(block_chain[-1])
-        if block is not None:
-            block_chain.append(block)
-        if len(block_chain) != 0:
-            print("Data: " + block.data + "\n" + "Hash: " + block.hash + "\n" + "Prev Hash: " + block.previous_hash+"\n")
+class BlockChain:
+    def __init__(self):
+        self.blockchain = []
+        self.length = 0
+
+    def add_block(self, data=None):
+        if not data:
+            print("Cannot add empty block")
+            return
+
+        elif self.length == 0:
+            block = Block(data, 0)
+
         else:
-            print('end of chain')
+            block = Block(data, self.blockchain[self.length - 1].hash)
+
+        self.blockchain.append(block)
+        self.length += 1
+
+    def __repr__(self):
+
+        if len(self.blockchain) == 0:
+            return "Blockchain is empty"
+
+        d = ''
+        for i in range(len(self.blockchain)):
+            d += "Block " + str(i) + ":" + "\n"
+            d += str(self.blockchain[i]) + "\n"
+        return d
+
+
+
+blockchain = BlockChain()
+blockchain.add_block('cat')
+blockchain.add_block('dog')
+blockchain.add_block('duck')
+print("Test 1:")
+print("Should print block chain:")
+pprint(blockchain)
+print("Test 2:")
+print("Should print: 'Cannot add empty block'")
+blockchain.add_block('')
+print("\n")
+print("Test 3:")
+print("Should print: 'Blockchain is empty'")
+blockchain = BlockChain()
+print(blockchain)
+
+
+
