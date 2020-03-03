@@ -1,7 +1,7 @@
-block chain is similar to a linked list but given the scope of this problem there was not a need to create a linked list
-since as we do not need to quickly delete and insert nodes we just want to make sure we're linking each block so it
-can be referenced by its predecessor which is why I chose an array to store the blocks.<br/>
+The main component of our block chain is going to be linking each block so it can be
+referenced by its predecessor which is why I chose to store the blocks in a linked list<br/>
 
-**Time complexity:** appending to an array takes O(1) with n indicating the number of blocks in the chain, time complexity
-will grow with linearly
+**Time complexity:** Creating the linked list and assigning values to the Block take both take O(1) and run time does
+stays linear regardless of input size. adding a block to the chain will take O(n) where n indicates the blocks
+
 **Space Complexity:** O(n) with n indicating the number of blocks in the array
