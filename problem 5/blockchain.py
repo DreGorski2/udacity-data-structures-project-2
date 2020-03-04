@@ -27,16 +27,17 @@ class Block:
         return d
 
 
-class BlockNode:
-    def __init__(self, data):
-        self.data = data
-        self.next = None
-        self.prev = None
+# class BlockNode:
+#     def __init__(self, data):
+#         self.data = data
+#         self.next = None
+#         self.prev = None
 
 
 class BlockChain:
     def __init__(self):
-        self.head = None
+        self.blockchain = []
+        self.length = 0
 
     def add_block(self, data):
 
@@ -44,24 +45,23 @@ class BlockChain:
             print("Cannot add empty block")
             return
 
-        if self.head is None:
-            self.head = BlockNode(data)
-            return
-
+        if self.length == 0:
+            block = Block(data, 0)
         else:
-            node = self.head
-            while node.next:
-                node = node.next
-            node.next = BlockNode(data)
+            block = Block(data, self.blockchain[self.length - 1].hash)
+
+        self.blockchain.append(block)
+        self.length += 1
 
     def __repr__(self):
-        node = self.head
-        blockchain = []
-        while node is not None:
-            blockchain.append(node.data)
-            node = node.next
+        if len(self.blockchain) == 0:
+            return "Blockchain is Empty"
 
-        return "["+"<-->".join(blockchain) + "]"
+        d = ''
+        for i in range(len(self.blockchain)):
+            d += "Block " + str(i) + "\n"
+            d += str(self.blockchain[i]) + "\n"
+        return d
 
 
 blockchain = BlockChain()
