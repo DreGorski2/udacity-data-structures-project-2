@@ -2,15 +2,18 @@ import hashlib
 import sys
 from pprint import pprint
 import datetime
+from datetime import timedelta
 
 
 class Block:
 
-    def __init__(self, data, previous_hash=0):
-        self.timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M:%S %m-%d-%y")
+    def __init__(self, timestamp, data, previous_hash):
+        self.timestamp = timestamp
         self.data = data
         self.previous_hash = previous_hash
-        self.hash = self.calc_hash(data)
+        self.hashify = str(data) + str(datetime)
+        self.hash = self.calc_hash(self.hashify)
+        self.next = None
 
     def calc_hash(self, data):
         sha = hashlib.sha256()
@@ -20,66 +23,61 @@ class Block:
 
     def __repr__(self):
         d = ''
-        d += "Timestamp: " + self.timestamp + "\n"
-        d += "Value: " + self.data + "\n"
+        d += "Timestamp: " + str(self.timestamp) + "\n"
+        d += "Value: " + str(self.data) + "\n"
         d += "Curr_Hash: " + str(self.hash) + "\n"
         d += "Prev_Hash: " + str(self.previous_hash) + "\n"
         return d
 
 
-# class BlockNode:
-#     def __init__(self, data):
-#         self.data = data
-#         self.next = None
-#         self.prev = None
-
-
 class BlockChain:
     def __init__(self):
-        self.blockchain = []
-        self.length = 0
+        self.head = None
 
-    def add_block(self, data):
-
+    def add_block(self,timestamp, data,):
         if data is None or len(data) == 0:
-            print("Cannot add empty block")
+            print('Cannot add empty block')
             return
 
-        if self.length == 0:
-            block = Block(data, 0)
+        if self.head is None:
+            self.head = Block(timestamp, data, 0)
+            return
+
         else:
-            block = Block(data, self.blockchain[self.length - 1].hash)
-
-        self.blockchain.append(block)
-        self.length += 1
-
-    def __repr__(self):
-        if len(self.blockchain) == 0:
-            return "Blockchain is Empty"
-
-        d = ''
-        for i in range(len(self.blockchain)):
-            d += "Block " + str(i) + "\n"
-            d += str(self.blockchain[i]) + "\n"
-        return d
+            node = self.head
+            while node.next:
+                node = node.next
+            previous_hash = node.hash
+            node.next = Block(timestamp, data, previous_hash)
+            if self.head.timestamp > node.next.timestamp:
+                print('Block out of order')
+                return
+            return
 
 
 blockchain = BlockChain()
-blockchain.add_block('cat')
-blockchain.add_block('dog')
-blockchain.add_block('duck')
+blockchain.add_block(datetime.datetime.now(), 'cat')
+blockchain.add_block(datetime.datetime.now(), 'dog')
+blockchain.add_block(datetime.datetime.now(), 'duck')
 print("Test 1:")
 print("Should print block chain:")
-pprint(blockchain)
+print("\n")
+print(blockchain.head)
+print(blockchain.head.next)
+print(blockchain.head.next.next)
 print("\n")
 print("Test 2:")
 print("Should print: 'Cannot add empty block'")
-blockchain.add_block('')
+blockchain.add_block(datetime.datetime.now(), '')
 print("\n")
 print("Test 3:")
-print("Should print: 'Cannot add empty block'")
-blockchain = BlockChain()
-blockchain.add_block(None)
+print("Should print: " 'Block out of order')
+blockchain.add_block(datetime.datetime.now(), "goose")
+blockchain.add_block(datetime.datetime.now() - timedelta(minutes=10), "goat")
+
+
+
+
 
 
 
